@@ -1,17 +1,133 @@
+"use client";
+
 import Image from "next/image";
 
 export default function Home() {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const form = new FormData(e.currentTarget as HTMLFormElement);
+    const data = Object.fromEntries(form) as Record<string, string>;
+
+    if (
+      !data.email ||
+      !data.username ||
+      !data.name ||
+      !data.country ||
+      !data.year ||
+      !data.major ||
+      !data.password ||
+      !data.passwordRepeat
+    ) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    if (!data.email.endsWith(".edu")) {
+      alert("Please use a valid school email.");
+      return;
+    }
+    if (data.password !== data.passwordRepeat) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      // Replace with actual registration logic
+    } catch (error) {
+      alert("Registration failed. Please try again.");
+    } finally {
+      //Set after stuff
+    }
+  }
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div
+      style={{ backgroundColor: "#232429" }}
+      className=" font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20"
+    >
+      <main className="bg-black-500 flex flex-col gap-[32px] row-start-2 items-center sm:items-start justify-items-center">
         <Image
-          className="dark:invert"
-          src="/next.svg"
+          className="mx-auto"
+          src="/Logo (2).png"
           alt="Next.js logo"
           width={180}
           height={38}
           priority
         />
+        <h1 className="text-white text-2xl text-center mx-auto">
+          Welcome to F1 Connect!
+        </h1>
+        {/* <form action={formAction}> */}
+        <form
+          onSubmit={handleSubmit}
+          className="text-white flex flex-col gap-4 mx-auto"
+        >
+          <input
+            className="text-white"
+            type="text"
+            placeholder="school email"
+            name="email"
+          />
+          <input
+            className="text-white"
+            type="text"
+            placeholder="username"
+            name="username"
+          />
+          <input
+            className="text-white"
+            type="text"
+            placeholder="name"
+            name="name"
+          />
+          <label htmlFor="countries">Your country of origin:</label>
+          <select id="countries" name="country">
+            <option style={{ backgroundColor: "#232429" }} value="default">
+              Select
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="china">
+              China
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="korea">
+              South Korea
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="india">
+              India
+            </option>
+          </select>
+          <label htmlFor="year">Grad year:</label>
+          <select id="year" name="year">
+            <option style={{ backgroundColor: "#232429" }} value="default">
+              Select
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2026">
+              2026
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2027">
+              2027
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2028">
+              2028
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2029">
+              2029
+            </option>
+          </select>
+          <input type="text" placeholder="major" name="major" />
+          <input type="password" placeholder="password" name="password" />
+          <input
+            type="password"
+            placeholder="repeat password"
+            name="passwordRepeat"
+          />
+          <button
+            type="submit"
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#000000] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
+          >
+            Register
+          </button>
+
+          {/* {state?.error} */}
+        </form>
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
