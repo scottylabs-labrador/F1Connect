@@ -60,6 +60,226 @@ export default function Home() {
       alert("Registration failed. Please try again.");
     }
   }
+
+  const countryToRegion: Record<string, string> = {
+    // Anglo-American
+    "United States": "Anglo-American",
+    "Canada": "Anglo-American",
+  
+    // Latin America
+    "Mexico": "Latin America",
+    "Guatemala": "Latin America",
+    "Honduras": "Latin America",
+    "El Salvador": "Latin America",
+    "Nicaragua": "Latin America",
+    "Costa Rica": "Latin America",
+    "Panama": "Latin America",
+    "Belize": "Latin America",
+    "Cuba": "Latin America",
+    "Dominican Republic": "Latin America",
+    "Haiti": "Latin America",
+    "Jamaica": "Latin America",
+    "Brazil": "Latin America",
+    "Argentina": "Latin America",
+    "Chile": "Latin America",
+    "Peru": "Latin America",
+    "Colombia": "Latin America",
+    "Ecuador": "Latin America",
+    "Bolivia": "Latin America",
+    "Paraguay": "Latin America",
+    "Uruguay": "Latin America",
+    "Venezuela": "Latin America",
+  
+    // Western Europe
+    "United Kingdom": "Western Europe",
+    "Ireland": "Western Europe",
+    "France": "Western Europe",
+    "Belgium": "Western Europe",
+    "Netherlands": "Western Europe",
+    "Luxembourg": "Western Europe",
+    "Germany": "Western Europe",
+    "Switzerland": "Western Europe",
+    "Austria": "Western Europe",
+    "Spain": "Western Europe",
+    "Portugal": "Western Europe",
+    "Italy": "Western Europe",
+    "Greece": "Western Europe",
+    "Malta": "Western Europe",
+    "Liechtenstein": "Western Europe",
+    "Monaco": "Western Europe",
+  
+    // Eastern Europe
+    "Poland": "Eastern Europe",
+    "Czech Republic": "Eastern Europe",
+    "Slovakia": "Eastern Europe",
+    "Slovenia": "Eastern Europe",
+    "Croatia": "Eastern Europe",
+    "Serbia": "Eastern Europe",
+    "Bosnia and Herzegovina": "Eastern Europe",
+    "Montenegro": "Eastern Europe",
+    "North Macedonia": "Eastern Europe",
+    "Romania": "Eastern Europe",
+    "Bulgaria": "Eastern Europe",
+    "Ukraine": "Eastern Europe",
+    "Belarus": "Eastern Europe",
+    "Russia": "Eastern Europe",
+    "Albania": "Eastern Europe",
+  
+    // Nordic
+    "Sweden": "Nordic",
+    "Norway": "Nordic",
+    "Finland": "Nordic",
+    "Denmark": "Nordic",
+    "Iceland": "Nordic",
+  
+    // Middle East / Arab
+    "Saudi Arabia": "Middle East / Arab",
+    "United Arab Emirates": "Middle East / Arab",
+    "Qatar": "Middle East / Arab",
+    "Bahrain": "Middle East / Arab",
+    "Kuwait": "Middle East / Arab",
+    "Oman": "Middle East / Arab",
+    "Yemen": "Middle East / Arab",
+    "Iraq": "Middle East / Arab",
+    "Syria": "Middle East / Arab",
+    "Lebanon": "Middle East / Arab",
+    "Jordan": "Middle East / Arab",
+    "Egypt": "Middle East / Arab",
+    "Tunisia": "Middle East / Arab",
+    "Algeria": "Middle East / Arab",
+    "Morocco": "Middle East / Arab",
+  
+    // Persian / Central Asian
+    "Iran": "Persian / Central Asian",
+    "Afghanistan": "Persian / Central Asian",
+  
+    // Turkic
+    "Turkey": "Turkic",
+    "Azerbaijan": "Turkic",
+    "Kazakhstan": "Turkic",
+    "Uzbekistan": "Turkic",
+    "Turkmenistan": "Turkic",
+    "Kyrgyzstan": "Turkic",
+  
+    // South Asia
+    "India": "South Asia",
+    "Pakistan": "South Asia",
+    "Bangladesh": "South Asia",
+    "Sri Lanka": "South Asia",
+    "Nepal": "South Asia",
+    "Bhutan": "South Asia",
+    "Maldives": "South Asia",
+  
+    // Southeast Asia
+    "Indonesia": "Southeast Asia",
+    "Malaysia": "Southeast Asia",
+    "Philippines": "Southeast Asia",
+    "Singapore": "Southeast Asia",
+    "Thailand": "Southeast Asia",
+    "Vietnam": "Southeast Asia",
+    "Myanmar": "Southeast Asia",
+    "Cambodia": "Southeast Asia",
+    "Laos": "Southeast Asia",
+    "Brunei": "Southeast Asia",
+  
+    // East Asia
+    "China": "East Asia",
+    "Japan": "East Asia",
+    "South Korea": "East Asia",
+    "North Korea": "East Asia",
+    "Mongolia": "East Asia",
+    "Taiwan": "East Asia",
+  
+    // Sub-Saharan Africa
+    "Nigeria": "Sub-Saharan Africa",
+    "Ghana": "Sub-Saharan Africa",
+    "Senegal": "Sub-Saharan Africa",
+    "Ivory Coast": "Sub-Saharan Africa",
+    "Sierra Leone": "Sub-Saharan Africa",
+    "Liberia": "Sub-Saharan Africa",
+    "Kenya": "Sub-Saharan Africa",
+    "Tanzania": "Sub-Saharan Africa",
+    "Uganda": "Sub-Saharan Africa",
+    "Rwanda": "Sub-Saharan Africa",
+    "Burundi": "Sub-Saharan Africa",
+    "Ethiopia": "Sub-Saharan Africa",
+    "Somalia": "Sub-Saharan Africa",
+    "Cameroon": "Sub-Saharan Africa",
+    "Chad": "Sub-Saharan Africa",
+    "Central African Republic": "Sub-Saharan Africa",
+    "Republic of the Congo": "Sub-Saharan Africa",
+    "Democratic Republic of the Congo": "Sub-Saharan Africa",
+    "South Africa": "Sub-Saharan Africa",
+    "Namibia": "Sub-Saharan Africa",
+    "Botswana": "Sub-Saharan Africa",
+    "Zimbabwe": "Sub-Saharan Africa",
+    "Zambia": "Sub-Saharan Africa",
+    "Mozambique": "Sub-Saharan Africa",
+    "Malawi": "Sub-Saharan Africa",
+    "Lesotho": "Sub-Saharan Africa",
+    "Eswatini": "Sub-Saharan Africa",
+  
+    // Oceania / Pacific
+    "Australia": "Oceania / Pacific",
+    "New Zealand": "Oceania / Pacific",
+    "Fiji": "Oceania / Pacific",
+    "Samoa": "Oceania / Pacific",
+    "Tonga": "Oceania / Pacific",
+    "Papua New Guinea": "Oceania / Pacific",
+    "Vanuatu": "Oceania / Pacific"
+  };
+
+  const collegeMajors: string[] = [
+    "Accounting",
+    "Agriculture/Natural Resources",
+    "Anthropology",
+    "Architecture",
+    "Art/Fine Arts",
+    "Biology/Biological Sciences",
+    "Business Administration/Management",
+    "Chemical Engineering",
+    "Chemistry",
+    "Civil Engineering",
+    "Communications",
+    "Computer Engineering",
+    "Computer Science",
+    "Criminal Justice",
+    "Economics",
+    "Education",
+    "Electrical Engineering",
+    "Engineering (Other)",
+    "English/Literature",
+    "Environmental Science",
+    "Finance",
+    "Foreign Languages",
+    "Health Sciences",
+    "History",
+    "Hospitality/Tourism Management",
+    "Human Resources",
+    "Information Technology/Systems",
+    "International Relations",
+    "Journalism",
+    "Law/Legal Studies",
+    "Liberal Arts",
+    "Marketing",
+    "Mathematics",
+    "Mechanical Engineering",
+    "Music",
+    "Nursing",
+    "Philosophy",
+    "Physics",
+    "Political Science",
+    "Psychology",
+    "Public Administration",
+    "Public Health",
+    "Social Work",
+    "Sociology",
+    "Statistics",
+    "Theater/Performing Arts",
+    "Other",
+    "Undeclared"
+  ];
+
   return (
     <div
       style={{ backgroundColor: "#232429" }}
@@ -202,53 +422,6 @@ export default function Home() {
           </a>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
