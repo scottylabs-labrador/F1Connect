@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+const url =
+  "mongodb+srv://zshariff435:test123@f1connect-test.rruc4ia.mongodb.net/?appName=F1Connect-Test";
 
 export default function Home() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -32,11 +34,30 @@ export default function Home() {
     }
 
     try {
-      // Replace with actual registration logic
+      const res = await fetch("/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          username: data.username,
+          name: data.name,
+          country: data.country,
+          year: data.year,
+          major: data.major,
+          password: data.password,
+        }),
+      });
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        alert("Registration failed. " + (json?.error || ""));
+        return;
+      }
+
+      // registration succeeded -> go to login page
+      location.href = "/auth";
     } catch (error) {
       alert("Registration failed. Please try again.");
-    } finally {
-      //Set after stuff
     }
   }
   return (
@@ -112,7 +133,21 @@ export default function Home() {
               2029
             </option>
           </select>
-          <input type="text" placeholder="major" name="major" />
+          <label htmlFor="major">Major:</label>
+          <select id="major" name="major" className="bg-[#232429] text-white">
+            <option style={{ backgroundColor: "#232429" }} value="default">
+              Select
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="cs">
+              Computer Science
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="ee">
+              Electrical Engineering
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="me">
+              Mechanical Engineering
+            </option>
+          </select>
           <input type="password" placeholder="password" name="password" />
           <input
             type="password"
@@ -128,6 +163,7 @@ export default function Home() {
 
           {/* {state?.error} */}
         </form>
+
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
@@ -140,7 +176,6 @@ export default function Home() {
             Save and see your changes instantly.
           </li>
         </ol>
-
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
