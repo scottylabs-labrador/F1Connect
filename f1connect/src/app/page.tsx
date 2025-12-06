@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+const url =
+  "mongodb+srv://zshariff435:test123@f1connect-test.rruc4ia.mongodb.net/?appName=F1Connect-Test";
 
 export default function Home() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -32,11 +34,30 @@ export default function Home() {
     }
 
     try {
-      // Replace with actual registration logic
+      const res = await fetch("/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          username: data.username,
+          name: data.name,
+          country: data.country,
+          year: data.year,
+          major: data.major,
+          password: data.password,
+        }),
+      });
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        alert("Registration failed. " + (json?.error || ""));
+        return;
+      }
+
+      // registration succeeded -> go to login page
+      location.href = "/auth";
     } catch (error) {
       alert("Registration failed. Please try again.");
-    } finally {
-      //Set after stuff
     }
   }
 
@@ -260,218 +281,145 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-6 py-12">
-      <main className="w-full max-w-2xl">
-        {/* Logo and Header */}
-        <div className="text-center mb-8">
-          <Image
-            className="mx-auto mb-6"
-            src="/Logo.png"
-            alt="F1 Connect logo"
-            width={180}
-            height={38}
-            priority
+    <div
+      style={{ backgroundColor: "#232429" }}
+      className=" font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20"
+    >
+      <main className="bg-black-500 flex flex-col gap-[32px] row-start-2 items-center sm:items-start justify-items-center">
+        <Image
+          className="mx-auto"
+          src="/Logo (2).png"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />
+        <h1 className="text-white text-2xl text-center mx-auto">
+          Welcome to F1 Connect!
+        </h1>
+        {/* <form action={formAction}> */}
+        <form
+          onSubmit={handleSubmit}
+          className="text-white flex flex-col gap-4 mx-auto"
+        >
+          <input
+            className="text-white"
+            type="text"
+            placeholder="school email"
+            name="email"
           />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">
-            Welcome to F1 Connect!
-          </h1>
-          <p className="text-gray-400">Create your account to get started</p>
-        </div>
+          <input
+            className="text-white"
+            type="text"
+            placeholder="username"
+            name="username"
+          />
+          <input
+            className="text-white"
+            type="text"
+            placeholder="name"
+            name="name"
+          />
+          <label htmlFor="countries">Your country of origin:</label>
+          <select id="countries" name="country">
+            <option style={{ backgroundColor: "#232429" }} value="default">
+              Select
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="china">
+              China
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="korea">
+              South Korea
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="india">
+              India
+            </option>
+          </select>
+          <label htmlFor="year">Grad year:</label>
+          <select id="year" name="year">
+            <option style={{ backgroundColor: "#232429" }} value="default">
+              Select
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2026">
+              2026
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2027">
+              2027
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2028">
+              2028
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="2029">
+              2029
+            </option>
+          </select>
+          <label htmlFor="major">Major:</label>
+          <select id="major" name="major" className="bg-[#232429] text-white">
+            <option style={{ backgroundColor: "#232429" }} value="default">
+              Select
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="cs">
+              Computer Science
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="ee">
+              Electrical Engineering
+            </option>
+            <option style={{ backgroundColor: "#232429" }} value="me">
+              Mechanical Engineering
+            </option>
+          </select>
+          <input type="password" placeholder="password" name="password" />
+          <input
+            type="password"
+            placeholder="repeat password"
+            name="passwordRepeat"
+          />
+          <button
+            type="submit"
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#000000] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
+          >
+            Register
+          </button>
 
-        {/* Form Container */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-8 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Input */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                School Email
-              </label>
-              <input
-                type="text"
-                id="email"
-                placeholder="Enter your school email"
-                name="email"
-                className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              />
-            </div>
+          {/* {state?.error} */}
+        </form>
 
-            {/* Username Input */}
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-2">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                placeholder="Choose a username"
-                name="username"
-                className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              />
-            </div>
-
-            {/* Name Input */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                placeholder="Enter your full name"
-                name="name"
-                className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              />
-            </div>
-
-            {/* Two Column Layout for Country and Year */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Country Select */}
-              <div>
-                <label htmlFor="countries" className="block text-sm font-medium text-gray-300 mb-2">
-                  Country of Origin
-                </label>
-                <div className="relative">
-                  <select
-                    id="countries"
-                    name="country"
-                    className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none cursor-pointer hover:border-gray-600"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 1rem center',
-                      paddingRight: '3rem'
-                    }}
-                  >
-                    {Object.keys(countryToRegion).map((country) => (
-                      <option key={country} value={country} className="bg-gray-950 text-white py-2">
-                        {country}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                    <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Grad Year Select */}
-              <div>
-                <label htmlFor="year" className="block text-sm font-medium text-gray-300 mb-2">
-                  Graduation Year
-                </label>
-                <div className="relative">
-                  <select
-                    id="year"
-                    name="year"
-                    className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none cursor-pointer hover:border-gray-600"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 1rem center',
-                      paddingRight: '3rem'
-                    }}
-                  >
-                    <option value="default" className="bg-gray-950 text-white py-2">
-                      Select Year
-                    </option>
-                    <option value="2026" className="bg-gray-950 text-white py-2">
-                      2026
-                    </option>
-                    <option value="2027" className="bg-gray-950 text-white py-2">
-                      2027
-                    </option>
-                    <option value="2028" className="bg-gray-950 text-white py-2">
-                      2028
-                    </option>
-                    <option value="2029" className="bg-gray-950 text-white py-2">
-                      2029
-                    </option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                    <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Major Input */}
-            <div>
-              <label htmlFor="major" className="block text-sm font-medium text-gray-300 mb-2">
-                Major
-              </label>
-              <div className="relative">
-                  <select
-                    id="countries"
-                    name="country"
-                    className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none cursor-pointer hover:border-gray-600"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'right 1rem center',
-                      paddingRight: '3rem'
-                    }}
-                  >
-                    {collegeMajors.map((major) => (
-                      <option key={major} value={major} className="bg-gray-950 text-white py-2">
-                        {major}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                    <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                </div>
-            </div>
-
-            {/* Password Input */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Create a password"
-                name="password"
-                className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              />
-            </div>
-
-            {/* Repeat Password Input */}
-            <div>
-              <label htmlFor="passwordRepeat" className="block text-sm font-medium text-gray-300 mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="passwordRepeat"
-                placeholder="Repeat your password"
-                name="passwordRepeat"
-                className="w-full px-4 py-3 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 hover:-translate-y-0.5"
-            >
-              Register
-            </button>
-
-            {/* Error Message Placeholder */}
-            {/* {state?.error && (
-              <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 text-red-400 text-sm">
-                {state.error}
-              </div>
-            )} */}
-          </form>
+        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
+          <li className="mb-2 tracking-[-.01em]">
+            Get started by editing{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
+              src/app/page.tsx
+            </code>
+            .
+          </li>
+          <li className="tracking-[-.01em]">
+            Save and see your changes instantly.
+          </li>
+        </ol>
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            Deploy now
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our docs
+          </a>
         </div>
       </main>
     </div>
